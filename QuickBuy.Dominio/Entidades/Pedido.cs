@@ -1,11 +1,12 @@
 ﻿using QuickBuy.Dominio.Enumerados;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace QuickBuy.Dominio.Contratos
 {
-    public class Pedido
+    public class Pedido:Entidade
     {
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
@@ -19,5 +20,18 @@ namespace QuickBuy.Dominio.Contratos
         public int FormaPagamentoId { get; set; }
         public TipoFormaPagamentoEnum TipoFormaPagamento { get; set; }
         public ICollection<ItemPedido> ItemPedidos { get; set; }
+
+        public override void Validate()
+        {
+            LimparMensagensValidacao();
+
+            if (!ItemPedidos.Any())
+                AdicionarCritica("Não existe item do pedido");
+
+
+            if (string.IsNullOrEmpty(CEP))
+                AdicionarCritica("CEP deve estar preenchido");
+
+        }
     }
 }
