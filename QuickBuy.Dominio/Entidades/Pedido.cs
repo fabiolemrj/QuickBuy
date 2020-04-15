@@ -11,6 +11,7 @@ namespace QuickBuy.Dominio.Contratos
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
         public int UsuarioId { get; set; }
+        public virtual Usuario Usuario { get; set; }
         public DateTime DataPrevisaoEntrega { get; set; }
         public string CEP { get; set; }
         public string Estado { get; set; }
@@ -19,7 +20,7 @@ namespace QuickBuy.Dominio.Contratos
         public int NumeroEndereco { get; set; }
         public int FormaPagamentoId { get; set; }
         public TipoFormaPagamentoEnum TipoFormaPagamento { get; set; }
-        public ICollection<ItemPedido> ItemPedidos { get; set; }
+        public virtual ICollection<ItemPedido> ItemPedidos { get; set; }
 
         public override void Validate()
         {

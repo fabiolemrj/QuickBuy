@@ -11,7 +11,30 @@ namespace QuickBuy.Repositorio.Config
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+
+            builder
+                .Property(x => x.Email)
+                .IsRequired()
+                .HasMaxLength(50);
+            builder
+                  .Property(x => x.Nome)
+                  .IsRequired()
+                  .HasMaxLength(50);
+            builder
+                  .Property(x => x.SobreNome)
+                  .IsRequired()
+                  .HasMaxLength(50);
+            builder
+                  .Property(x => x.Senha)
+                  .IsRequired()
+                  .HasMaxLength(400);
+
+            builder
+                .HasMany(x => x.Pedidos)
+                .WithOne(x => x.Usuario);
+                
+         
         }
     }
 }

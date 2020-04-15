@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QuickBuy.Dominio.Contratos;
 using QuickBuy.Repositorio.Config;
+using QuickBuy.Repositorio.Repositorios;
 
 namespace QuickBuy.Web
 {
@@ -15,7 +17,7 @@ namespace QuickBuy.Web
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("config.json",optional:false, reloadOnChange:true);
+            builder.AddJsonFile("C:\\dev\\QuickBuy\\QuickBuy.Web\\config.json", optional:false, reloadOnChange:true);
 
 
 
@@ -31,8 +33,13 @@ namespace QuickBuy.Web
 
             var connectionString = Configuration.GetConnectionString("QuickBuyDB");
 
-            services.AddDbContext<QuickBuyContext>(opt => opt.UseMySql(connectionString,
+            services.AddDbContext<QuickBuyContext>(opt => opt.UseLazyLoadingProxies().UseMySql(connectionString,
                                 m => m.MigrationsAssembly("QuickBuy.Repositorio")));
+
+            services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+            services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
